@@ -18,6 +18,14 @@ and a Flask web demo.
 - Flask web UI for interactive testing (`app.py`)
 - Clean train/test split with accuracy, confusion matrix, and classification report
 
+## Environment branches
+
+- `dev` — development changes and integration
+- `test` — testing and validation
+- `main` — production-ready code
+
+Changes are promoted in order from `dev` to `test`, then from `test` to `main`.
+
 ## Project structure
 
 ```
