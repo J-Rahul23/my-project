@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fake News Detector</title>
+<style>
+  :root {
+    --ink: #1a1a2e;
+    --paper: #f7f5f0;
+    --accent: #c0392b;
+    --safe: #1e7d4a;
+    --border: #d8d3c8;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    background: var(--paper);
+    color: var(--ink);
+    margin: 0;
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+  }
+  .container { max-width: 680px; width: 100%; }
+  header {
+    border-bottom: 3px double var(--ink);
+    padding-bottom: 16px;
+    margin-bottom: 28px;
+    text-align: center;
+  }
+  h1 {
+    font-size: 2.1rem;
+    margin: 0 0 6px 0;
+    letter-spacing: 0.5px;
+  }
+  .subtitle {
+    font-style: italic;
+    color: #555;
+    font-size: 0.95rem;
+  }
+  textarea {
+    width: 100%;
+    min-height: 160px;
+    padding: 14px;
+    font-family: inherit;
+    font-size: 1rem;
+    border: 1px solid var(--border);
+    background: #fff;
+    resize: vertical;
+  }
+  button {
+    margin-top: 14px;
+    padding: 12px 28px;
+    background: var(--ink);
+    color: #fff;
+    border: none;
+    font-family: inherit;
+    font-size: 1rem;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+  }
+  button:hover { background: #333; }
+  .result {
+    margin-top: 30px;
+    padding: 20px;
+    border: 1px solid var(--border);
+    background: #fff;
+  }
+  .result.FAKE { border-left: 6px solid var(--accent); }
+  .result.REAL { border-left: 6px solid var(--safe); }
+  .label {
+    font-size: 1.4rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .FAKE .label { color: var(--accent); }
+  .REAL .label { color: var(--safe); }
+  .meter {
+    height: 8px;
+    background: #eee;
+    margin-top: 12px;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .meter-fill { height: 100%; background: currentColor; }
+  .error {
+    margin-top: 20px;
+    padding: 14px;
+    background: #fbe9e7;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+  }
+  .disclaimer {
+    margin-top: 40px;
+    font-size: 0.8rem;
+    color: #888;
+    text-align: center;
+    line-height: 1.5;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>📰 Fake News Detector</h1>
+    <div class="subtitle">Paste a headline or article below to check its credibility signal</div>
+  </header>
+
+  <form method="POST">
+    <textarea name="text" placeholder="Paste article text or headline here...">{{ text }}</textarea>
+    <button type="submit">Analyze</button>
+  </form>
+
+  {% if error %}
+    <div class="error">{{ error }}</div>
+  {% endif %}
+
+  {% if result %}
+    <div class="result {{ result.label }}">
+      <div class="label">{{ result.label }}</div>
+      <div>Confidence: {{ "%.0f"|format(result.confidence) }}%</div>
+      <div class="meter">
+        <div class="meter-fill" style="width: {{ result.confidence }}%; color: {{ '#c0392b' if result.label == 'FAKE' else '#1e7d4a' }}"></div>
+      </div>
+    </div>
+  {% endif %}
+
+  <div class="disclaimer">
+    This is a demo ML classifier trained on a small synthetic dataset and is not a substitute
+    for professional fact-checking. Verify important claims with trusted primary sources.
+  </div>
+</div>
+</body>
+</html>

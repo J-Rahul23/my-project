@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+env/
+
+# Model artifacts (regenerate via train.py, or remove this line to commit them)
+model/*.joblib
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+
+# Env vars
+.env
